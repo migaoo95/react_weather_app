@@ -1,10 +1,11 @@
 import { FaSearchLocation, FaSun } from "react-icons/fa";
+// Import Context
 
 function MainWeather() {
   return (
     <div
       id="main-div"
-      className="rounded-xl bg-[#0369a1] p-5 flex flex-col justify-between"
+      className="rounded-xl bg-[#0369a1] z-[1] shadow-2xl p-5 flex flex-col justify-between"
     >
       {/* TOP WEATHER INFORMATION */}
       <div className="">
