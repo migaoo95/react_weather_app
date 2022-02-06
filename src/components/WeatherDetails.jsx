@@ -5,6 +5,8 @@ import {
   FaWater,
 } from "react-icons/fa";
 import { BiWind, BiTachometer } from "react-icons/bi";
+// Change weather Location Modal
+import ChangeModal from "./ChangeModal";
 function WeatherDetails() {
   return (
     <div className="bg-[#1f2937] p-5  border border-info pl-7 shadow-2xl left-[-10px] relative rounded-r-xl flex flex-col justify-between">
@@ -79,12 +81,7 @@ function WeatherDetails() {
 
       {/* CARD THREE ----------------------- */}
       <div className="p-2">
-        <button className="btn btn-primary btn-block rounded-3xl">
-          <span>
-            <FaSearchLocation className="mr-2" size="20px" />
-          </span>
-          Change Location
-        </button>
+        <ChangeModal />
       </div>
     </div>
   );
