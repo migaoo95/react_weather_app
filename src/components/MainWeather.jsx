@@ -7,13 +7,13 @@ import WeatherContext from "./context/WeatherContext";
 
 function MainWeather() {
   // Get context data
-  const { weather, fetchWeather } = useContext(WeatherContext);
+  const { weather } = useContext(WeatherContext);
   // const lat = weather.coord ? weather.coord.lat : null;
   // const lon = weather.coord ? weather.coord.lon : null;
   // Use effect fire function on component Load
-  useEffect(() => {
-    fetchWeather();
-  }, []);
+  // useEffect(() => {
+  //   fetchWeather();
+  // }, []);
 
   // Move logic outside render
   const weatherIcon = weather.weather ? weather.weather[0].icon : null;

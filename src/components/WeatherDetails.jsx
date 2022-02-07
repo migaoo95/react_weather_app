@@ -1,12 +1,7 @@
-import {
-  FaSun,
-  FaSearchLocation,
-  FaTemperatureHigh,
-  FaWater,
-} from "react-icons/fa";
+import { FaTemperatureHigh, FaWater } from "react-icons/fa";
 import { BiWind, BiTachometer } from "react-icons/bi";
 // Change weather Location Modal
-import ChangeModal from "./ChangeModal";
+import ChangeModal from "./ChangeModalComponents/ChangeModal";
 // Four day weather component
 import FourDayWeather from "./FourDayWeather";
 // Import State
@@ -14,7 +9,7 @@ import { useEffect, useContext } from "react";
 // Import context
 import WeatherContext from "./context/WeatherContext";
 function WeatherDetails() {
-  const { weather, fetchWeather, fetchWeatherDays, weatherDays } =
+  const { weather, fetchWeather, fetchWeatherDays, weatherDays, lat, lon } =
     useContext(WeatherContext);
 
   // Move logic outside render function !
@@ -26,11 +21,16 @@ function WeatherDetails() {
   // Get api data when component loads
   useEffect(() => {
     fetchWeather().then(() => {
-      const lat = weather.coord ? weather.coord.lat : "51.5085";
-      const lon = weather.coord ? weather.coord.lon : "-0.1257";
+      // const lat = weather.coord ? weather.coord.lat : "51.5085";
+      // const lon = weather.coord ? weather.coord.lon : "-0.1257";
       fetchWeatherDays(lat, lon);
+      // fetchCountries();
     });
   }, []);
+  // Update days when lat state changes
+  useEffect(() => {
+    fetchWeatherDays(lat, lon);
+  }, [lat]);
   return (
     <div className="bg-[#1f2937] p-5  border border-info pl-7 shadow-2xl left-[-10px] relative rounded-r-xl flex flex-col justify-between">
       {/* CARD ONE ----------------------- */}
@@ -79,7 +79,7 @@ function WeatherDetails() {
         </div>
       </div>
       {/* CARD TWO ----------------------- */}
-      <div className="flex justify-between glass px-2 py-1 rounded-3xl glass rounded-3xl shadow-xl">
+      <div className="flex justify-between  glass  glass rounded-3xl shadow-xl">
         {/* DIV HERE  */}
         {weatherDays.daily
           ? weatherDays.daily.map((day, index) => {
