@@ -1,16 +1,24 @@
-import { FaSearchLocation, FaSun } from "react-icons/fa";
+import { FaSearchLocation } from "react-icons/fa";
 
 // Import State
 import { useEffect, useContext } from "react";
 // Import context
 import WeatherContext from "./context/WeatherContext";
+
 function MainWeather() {
+  // Get context data
+  const { weather, fetchWeather } = useContext(WeatherContext);
+  // const lat = weather.coord ? weather.coord.lat : null;
+  // const lon = weather.coord ? weather.coord.lon : null;
   // Use effect fire function on component Load
   useEffect(() => {
     fetchWeather();
   }, []);
-  // Get context data
-  const { weather, fetchWeather } = useContext(WeatherContext);
+
+  // Move logic outside render
+  const weatherIcon = weather.weather ? weather.weather[0].icon : null;
+  const mainTemp = weather.main ? weather.main.temp : null;
+  const desc = weather.weather ? weather.weather[0].description : null;
   const date = new Date();
   return (
     <div
@@ -31,17 +39,11 @@ function MainWeather() {
 
       {/* BOTTOM WEATHER INFORMATION */}
       <div className="">
-        {weather.weather ? (
-          <img
-            src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-          />
-        ) : null}
-        {weather.main ? (
-          <p className="text-4xl">{weather.main.temp}&#176;C</p>
-        ) : null}
-        {weather.main ? (
-          <p className="text-xl">{weather.weather[0].description}</p>
-        ) : null}
+        <img src={`http://openweathermap.org/img/wn/${weatherIcon}@2x.png`} />
+
+        <p className="text-4xl">{mainTemp}&#176;C</p>
+
+        <p className="text-xl">{desc}</p>
       </div>
     </div>
   );

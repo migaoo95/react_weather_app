@@ -4,7 +4,7 @@ function ChangeModal() {
     <div>
       <label
         htmlFor="my-modal-2"
-        className="btn btn-primary btn-block rounded-3xl modal-button"
+        className="btn glass btn-block rounded-3xl modal-button"
       >
         <span>
           <FaSearchLocation className="mr-2" size="20px" />
