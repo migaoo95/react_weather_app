@@ -4,17 +4,16 @@ import { useState, useContext } from "react";
 import WeatherContext from "../context/WeatherContext";
 function ChangeModal() {
   // Get context function
-  const { fetchWeather } = useContext(WeatherContext);
+  const { fetchWeather, fetchWeatherDays, lat, lon } =
+    useContext(WeatherContext);
   const [text, setText] = useState("");
 
   const handleChange = (e) => {
     setText(e.target.value);
-    // console.log(text);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     fetchWeather(text);
-    console.log("You clicked submit.");
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -44,11 +43,7 @@ function ChangeModal() {
             />
           </div>
           <div className="modal-action">
-            <button
-              type="submit"
-              // htmlFor="my-modal-2"
-              className="btn btn-primary"
-            >
+            <button type="submit" className="btn btn-primary">
               Change Location
             </button>
             <label htmlFor="my-modal-2" className="btn">

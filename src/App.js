@@ -8,7 +8,7 @@ function App() {
   return (
     <WeatherContextProvider>
       <div className="App container flex h-screen m-auto">
-        <div className="container m-auto  rounded-xl   w-[60%] h-[65%] grid grid-cols-2">
+        <div className="container m-auto  rounded-xl   w-[60%] h-[65%] min-w-[795px] max-h-[750px] grid grid-cols-2">
           <MainWeather />
           <WeatherDetails />
         </div>

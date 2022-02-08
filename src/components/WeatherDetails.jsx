@@ -2,6 +2,7 @@ import { FaTemperatureHigh, FaWater } from "react-icons/fa";
 import { BiWind, BiTachometer } from "react-icons/bi";
 // Change weather Location Modal
 import ChangeModal from "./ChangeModalComponents/ChangeModal";
+import DayWeatherModal from "./DayWeatherModal/DayWeatherModal";
 // Four day weather component
 import FourDayWeather from "./FourDayWeather";
 // Import State
@@ -21,10 +22,7 @@ function WeatherDetails() {
   // Get api data when component loads
   useEffect(() => {
     fetchWeather().then(() => {
-      // const lat = weather.coord ? weather.coord.lat : "51.5085";
-      // const lon = weather.coord ? weather.coord.lon : "-0.1257";
       fetchWeatherDays(lat, lon);
-      // fetchCountries();
     });
   }, []);
   // Update days when lat state changes
@@ -95,6 +93,7 @@ function WeatherDetails() {
       {/* CARD THREE ----------------------- */}
       <div className="p-2">
         <ChangeModal />
+        <DayWeatherModal />
       </div>
     </div>
   );
