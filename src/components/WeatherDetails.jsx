@@ -30,7 +30,7 @@ function WeatherDetails() {
     fetchWeatherDays(lat, lon);
   }, [lat]);
   return (
-    <div className="bg-[#1f2937] p-5  border border-info pl-7 shadow-2xl left-[-10px] relative rounded-r-xl flex flex-col justify-between">
+    <div className="bg-[#1f2937] p-5  md:border border-info pl-7 shadow-2xl md:left-[-10px] relative md:rounded-r-xl flex flex-col justify-between">
       {/* CARD ONE ----------------------- */}
       <div className="text-md">
         {/* ICON ONE ----------------------- */}
@@ -77,7 +77,7 @@ function WeatherDetails() {
         </div>
       </div>
       {/* CARD TWO ----------------------- */}
-      <div className="flex justify-between  glass  glass rounded-3xl shadow-xl">
+      <div className="flex justify-between  glass  glass rounded-3xl shadow-xl sm:mt-5 md:mt-0">
         {/* DIV HERE  */}
         {weatherDays.daily
           ? weatherDays.daily.map((day, index) => {
