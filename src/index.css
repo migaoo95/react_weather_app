@@ -8,3 +8,7 @@
 }
 #main-div img {
 }
+body {
+  background-image: url("./assets/rain.jpeg");
+  background-size: cover;
+}
