@@ -10,8 +10,15 @@ import { useEffect, useContext } from "react";
 // Import context
 import WeatherContext from "./context/WeatherContext";
 function WeatherDetails() {
-  const { weather, fetchWeather, fetchWeatherDays, weatherDays, lat, lon } =
-    useContext(WeatherContext);
+  const {
+    weather,
+    fetchWeather,
+    fetchWeatherDays,
+    weatherDays,
+
+    location,
+    setLocation,
+  } = useContext(WeatherContext);
 
   // Move logic outside render function !
   const maxTemp = weather.main ? weather.main.temp_max : null;
@@ -21,14 +28,35 @@ function WeatherDetails() {
 
   // Get api data when component loads
   useEffect(() => {
-    fetchWeather().then(() => {
-      fetchWeatherDays(lat, lon);
+    if (localStorage.getItem("location") === null) {
+      setLocation("London");
+    } else {
+      setLocation(localStorage.getItem("location"));
+    }
+    fetchWeather(location).then((data) => {
+      // fetchWeatherDays(lat, lon);
+
+      console.log(data);
+      fetchWeatherDays(data.lat, data.lon);
+
+      // handleEffect();
     });
-  }, []);
-  // Update days when lat state changes
-  useEffect(() => {
-    fetchWeatherDays(lat, lon);
-  }, [lat]);
+  }, [location]);
+  // useEffect(() => {
+  //   if (location !== "London") {
+  //     console.log(location);
+  //     fetchWeather(location).then((data) => {
+  //       // fetchWeatherDays(lat, lon);
+  //       if (location !== localStorage.getItem("location")) {
+  //         setLocation(localStorage.getItem("location"));
+  //       }
+  //       console.log(data);
+  //       fetchWeatherDays(data.lat, data.lon);
+
+  //       // handleEffect();
+  //     });
+  //   }
+  // }, [location]);
   return (
     <div className="bg-[#1f2937] p-5  md:border border-info pl-7 shadow-2xl md:left-[-10px] relative md:rounded-r-xl flex flex-col justify-between">
       {/* CARD ONE ----------------------- */}

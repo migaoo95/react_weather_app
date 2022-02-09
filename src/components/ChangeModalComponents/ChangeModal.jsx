@@ -1,10 +1,10 @@
 import { FaSearchLocation } from "react-icons/fa";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 // Context
 import WeatherContext from "../context/WeatherContext";
 function ChangeModal() {
   // Get context function
-  const { fetchWeather, fetchWeatherDays, lat, lon } =
+  const { fetchWeather, fetchWeatherDays, lat, lon, setLocation } =
     useContext(WeatherContext);
   const [text, setText] = useState("");
 
@@ -13,8 +13,15 @@ function ChangeModal() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetchWeather(text);
+    if (text != "") {
+      setLocation(text);
+      fetchWeather(text);
+      localStorage.setItem("location", text);
+    }
   };
+  useEffect(() => {
+    fetchWeatherDays(lat, lon);
+  }, [lat]);
   return (
     <form onSubmit={handleSubmit}>
       <label

@@ -6,10 +6,11 @@ const WeatherContext = createContext();
 
 // Create and Export a props provider
 export const WeatherContextProvider = ({ children }) => {
+  const [location, setLocation] = useState("");
   const [weather, setWeather] = useState({});
+  const [lat, setLat] = useState("");
+  const [lon, setLon] = useState("");
   const [weatherDays, setWeatherDays] = useState({});
-  const [lat, setLat] = useState("51.5085");
-  const [lon, setLon] = useState("-0.1257");
   // Daily Data for modal
   const [dailyData, setDaily] = useState({});
   // Handle Click Modal
@@ -18,17 +19,19 @@ export const WeatherContextProvider = ({ children }) => {
   };
   // Fetch weather data for one day ------------------------ { Fetch Weather FUNC }
   const fetchWeather = async (cityVal) => {
-    const city = cityVal ? cityVal : "London";
+    // const city = cityVal ? cityVal : "London";
     const getWeatherResponse = await fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=bb918fd29c79dee1da42b5d635f45962
+      `http://api.openweathermap.org/data/2.5/weather?q=${cityVal}&units=metric&appid=bb918fd29c79dee1da42b5d635f45962
     `
     );
     const response = await getWeatherResponse.json();
     setWeather(response);
-    if (cityVal !== "London") {
-      setLat(response.coord.lat);
-      setLon(response.coord.lon);
-    }
+    setLat(response.coord.lat);
+    setLon(response.coord.lon);
+    return {
+      lat: response.coord.lat,
+      lon: response.coord.lon,
+    };
   };
   // Fetch weather data for multiple days ------------------------ { Fetch Weather FUNC }
   const fetchWeatherDays = async (lat, lon) => {
@@ -36,12 +39,13 @@ export const WeatherContextProvider = ({ children }) => {
       city: "London",
       apiKey: "1a2af7e5fff9a35b6bba85734da8b0ed",
     };
+
     const getWeatherResponse = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,alerts,hourly&appid=bb918fd29c79dee1da42b5d635f45962
     `
     );
     const response = await getWeatherResponse.json();
-    setWeatherDays(response);
+    setWeatherDays(await response);
   };
 
   // Return Values inside a provider
@@ -56,6 +60,8 @@ export const WeatherContextProvider = ({ children }) => {
         lon,
         handleClick,
         dailyData,
+        setLocation,
+        location,
       }}
     >
       {children}
