@@ -1,5 +1,7 @@
 import { FaTemperatureHigh, FaWater } from "react-icons/fa";
 import { BiWind, BiTachometer } from "react-icons/bi";
+import { BsSunrise, BsSunset } from "react-icons/bs";
+import { ImCompass } from "react-icons/im";
 // Change weather Location Modal
 import ChangeModal from "./ChangeModalComponents/ChangeModal";
 import DayWeatherModal from "./DayWeatherModal/DayWeatherModal";
@@ -9,6 +11,8 @@ import FourDayWeather from "./FourDayWeather";
 import { useEffect, useContext } from "react";
 // Import context
 import WeatherContext from "./context/WeatherContext";
+// Import helper converter
+import { convertUnixToTime } from "../helpers/helpers";
 function WeatherDetails() {
   const {
     weather,
@@ -25,7 +29,11 @@ function WeatherDetails() {
   const humidity = weather.main ? weather.main.humidity : null;
   const pressure = weather.main ? weather.main.pressure : null;
   const windSpeed = weather.main ? weather.wind.speed : null;
-
+  // Wind Direction Styling
+  // const windDirection = {  transform: "rotate(-45deg)" };
+  const windDirection = weather.wind
+    ? { transform: `rotate(${weather.wind.deg - 45}deg)` }
+    : null;
   // Get api data when component loads
   useEffect(() => {
     if (localStorage.getItem("location") === null) {
@@ -42,70 +50,85 @@ function WeatherDetails() {
       // handleEffect();
     });
   }, [location]);
-  // useEffect(() => {
-  //   if (location !== "London") {
-  //     console.log(location);
-  //     fetchWeather(location).then((data) => {
-  //       // fetchWeatherDays(lat, lon);
-  //       if (location !== localStorage.getItem("location")) {
-  //         setLocation(localStorage.getItem("location"));
-  //       }
-  //       console.log(data);
-  //       fetchWeatherDays(data.lat, data.lon);
 
-  //       // handleEffect();
-  //     });
-  //   }
-  // }, [location]);
   return (
     <div className="bg-[#1f2937] p-5  md:border border-info pl-7 shadow-2xl md:left-[-10px] relative md:rounded-r-xl flex flex-col justify-between">
       {/* CARD ONE ----------------------- */}
+      <div className="cont-1 glass p-2 rounded-2xl flex justify-around ">
+        <div className="inner-cont-1 text-center">
+          <BsSunrise className="m-auto" color="#0ea5e9" size="30px" />
+          <h1>Sunrise</h1>
+          {weather.sys ? <p>{convertUnixToTime(weather.sys.sunrise)}</p> : null}
+        </div>
+        <div className="inner-cont-1 mt-2">
+          <ImCompass
+            style={windDirection}
+            className="m-auto mb-1"
+            color="#0ea5e9"
+            size="30px"
+          />
+          <h1>Wind Direction</h1>
+        </div>
+        <div className="inner-cont-1 text-center">
+          <BsSunset className="m-auto" color="#0ea5e9" size="30px" />
+          <h1>Sunset</h1>
+          {weather.sys ? <p>{convertUnixToTime(weather.sys.sunset)}</p> : null}
+        </div>
+      </div>
       <div className="text-md">
         {/* ICON ONE ----------------------- */}
-        <div className="flex justify-between glass px-2 py-1 rounded-3xl shadow-2xl  mb-2">
+        <div className="flex justify-between glass px-2 py-1 rounded-xl shadow-2xl  mb-2">
           <p className="font-semibold">
             <span className="inline-block align-middle mr-2">
-              <FaTemperatureHigh className="text-[#dc2626]" size="25px" />
+              <FaTemperatureHigh className="text-[#0ea5e9]" size="25px" />
             </span>
             <span className="">Max Temp</span>
           </p>
-          <p className="text-[#9ca3af]">{maxTemp}&#176;C</p>
+          <p className="text-[#9ca3af]">
+            <span className="text-[#0ea5e9]">{maxTemp}</span>&#176;C
+          </p>
         </div>
         {/* ICON TWO ----------------------- */}
-        <div className="flex justify-between glass px-2 py-1 rounded-3xl shadow-2xl  mb-2">
+        <div className="flex justify-between glass px-2 py-1 rounded-xl shadow-2xl  mb-2">
           <p className="font-semibold">
             <span className="inline-block align-middle mr-2">
-              <FaWater className="text-[#06b6d4]" size="25px" />
+              <FaWater className="text-[#0ea5e9]" size="25px" />
             </span>
             <span className="">Humidity</span>
           </p>
 
-          <p className="text-[#9ca3af]">{humidity}%</p>
+          <p className="text-[#9ca3af]">
+            <span className="text-[#0ea5e9]">{humidity}</span>%
+          </p>
         </div>
         {/* ICON Three ----------------------- */}
-        <div className="flex justify-between glass px-2 py-1 rounded-3xl shadow-2xl  mb-2">
+        <div className="flex justify-between glass px-2 py-1 rounded-xl shadow-2xl  mb-2">
           <p className="font-semibold">
             <span className="inline-block align-middle mr-2">
-              <BiTachometer className="text-[#facc15]" color="" size="25px" />
+              <BiTachometer className="text-[#0ea5e9]" color="" size="25px" />
             </span>
             <span className="">Pressure</span>
           </p>
-          <p className="text-[#9ca3af]">{pressure}hPa</p>
+          <p className="text-[#9ca3af]">
+            <span className="text-[#0ea5e9]">{pressure}</span>hPa
+          </p>
         </div>
         {/* ICON FOUR ----------------------- */}
-        <div className="flex justify-between glass px-2 py-1 rounded-3xl shadow-2xl ">
+        <div className="flex justify-between glass px-2 py-1 rounded-xl shadow-2xl ">
           <p className="font-semibold">
             <span className="inline-block align-middle mr-2">
-              <BiWind className="text-[#3b82f6]" size="25px" />
+              <BiWind className="text-[#0ea5e9]" size="25px" />
             </span>
             <span className="">Wind Speed</span>
           </p>
 
-          <p className="text-[#9ca3af]">{windSpeed}mph</p>
+          <p className="text-[#9ca3af]">
+            <span className="text-[#0ea5e9]">{windSpeed}</span>mph
+          </p>
         </div>
       </div>
       {/* CARD TWO ----------------------- */}
-      <div className="flex justify-between  glass  glass rounded-3xl shadow-xl sm:mt-5 md:mt-0">
+      <div className="flex justify-between  glass  glass rounded-xl shadow-xl sm:mt-5 md:mt-0">
         {/* DIV HERE  */}
         {weatherDays.daily
           ? weatherDays.daily.map((day, index) => {

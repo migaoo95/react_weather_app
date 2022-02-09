@@ -18,7 +18,7 @@ function FourDayWeather({ data }) {
       }}
     >
       <div
-        className={` rounded-3xl p-3 text-center  hover:glass cursor-pointer`}
+        className={` rounded-xl p-3 text-center  hover:glass cursor-pointer`}
       >
         <img src={`http://openweathermap.org/img/wn/${weatherIcon}@2x.png`} />
         <p className="text-lg">{weekDaysShortener(weekDays(data.dt))}</p>
