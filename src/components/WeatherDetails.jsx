@@ -19,6 +19,9 @@ function WeatherDetails() {
     fetchWeather,
     fetchWeatherDays,
     weatherDays,
+    setWeather,
+    setLat,
+    setLon,
 
     location,
     setLocation,
@@ -36,24 +39,33 @@ function WeatherDetails() {
     : null;
   // Get api data when component loads
   useEffect(() => {
+    console.log("performed First");
     if (localStorage.getItem("location") === null) {
       setLocation("London");
     } else {
       setLocation(localStorage.getItem("location"));
     }
+  }, []);
+  useEffect(() => {
     fetchWeather(location).then((data) => {
       // fetchWeatherDays(lat, lon);
+      setWeather(data.response);
+      setLat(data.response.coord.lat);
+      setLon(data.response.coord.lon);
 
       console.log(data);
+      console.log("performed");
       fetchWeatherDays(data.lat, data.lon);
 
       // handleEffect();
     });
   }, [location]);
-
+  // console.log(weather, "This");
   return (
-    <div className="bg-[#1f2937] p-5  md:border border-info pl-7 shadow-2xl md:left-[-10px] relative md:rounded-r-xl flex flex-col justify-between">
+    <div className="bg-[#1f2937] p-5   md:border border-info pl-7 shadow-2xl md:left-[-10px] relative md:rounded-r-xl flex flex-col justify-between">
       {/* CARD ONE ----------------------- */}
+      {/* weather.cod !== "404" ? */}
+
       <div className="cont-1 glass p-2 rounded-2xl flex justify-around ">
         <div className="inner-cont-1 text-center">
           <BsSunrise className="m-auto" color="#0ea5e9" size="30px" />
@@ -75,6 +87,7 @@ function WeatherDetails() {
           {weather.sys ? <p>{convertUnixToTime(weather.sys.sunset)}</p> : null}
         </div>
       </div>
+
       <div className="text-md">
         {/* ICON ONE ----------------------- */}
         <div className="flex justify-between glass px-2 py-1 rounded-xl shadow-2xl  mb-2">
@@ -128,7 +141,13 @@ function WeatherDetails() {
         </div>
       </div>
       {/* CARD TWO ----------------------- */}
+
       <div className="flex justify-between  glass  glass rounded-xl shadow-xl sm:mt-5 md:mt-0">
+        <label className="label p-0 absolute top-[-25px]">
+          <span className="label-text">
+            Click to get upcomming weather information !
+          </span>
+        </label>
         {/* DIV HERE  */}
         {weatherDays.daily
           ? weatherDays.daily.map((day, index) => {

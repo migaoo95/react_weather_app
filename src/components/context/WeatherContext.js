@@ -11,6 +11,10 @@ export const WeatherContextProvider = ({ children }) => {
   const [lat, setLat] = useState("");
   const [lon, setLon] = useState("");
   const [weatherDays, setWeatherDays] = useState({});
+  const [showAlert, setAlert] = useState({
+    msg: "",
+    class: "",
+  });
   // Daily Data for modal
   const [dailyData, setDaily] = useState({});
   // Handle Click Modal
@@ -25,10 +29,13 @@ export const WeatherContextProvider = ({ children }) => {
     `
     );
     const response = await getWeatherResponse.json();
-    setWeather(response);
-    setLat(response.coord.lat);
-    setLon(response.coord.lon);
+
+    // setWeather(response);
+    // setLat(response.coord.lat);
+    // setLon(response.coord.lon);
+
     return {
+      response,
       lat: response.coord.lat,
       lon: response.coord.lon,
     };
@@ -62,6 +69,11 @@ export const WeatherContextProvider = ({ children }) => {
         dailyData,
         setLocation,
         location,
+        showAlert,
+        setAlert,
+        setWeather,
+        setLat,
+        setLon,
       }}
     >
       {children}

@@ -4,8 +4,15 @@ import { useState, useContext, useEffect } from "react";
 import WeatherContext from "../context/WeatherContext";
 function ChangeModal() {
   // Get context function
-  const { fetchWeather, fetchWeatherDays, lat, lon, setLocation } =
-    useContext(WeatherContext);
+  const {
+    fetchWeather,
+    fetchWeatherDays,
+    lat,
+    lon,
+    setLocation,
+    showAlert,
+    setAlert,
+  } = useContext(WeatherContext);
   const [text, setText] = useState("");
 
   const handleChange = (e) => {
@@ -14,9 +21,27 @@ function ChangeModal() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (text != "") {
+      // setChange(true);
       setLocation(text);
-      fetchWeather(text);
-      localStorage.setItem("location", text);
+      fetchWeather(text)
+        .then(() => {
+          setAlert({
+            ...showAlert,
+            msg: "Your Location has been found !",
+            class: "text-[#22c55e]",
+          });
+          localStorage.setItem("location", text);
+        })
+        .catch((err) => {
+          // setAlert("Sorry the location have not been found !!!");
+          setAlert({
+            ...showAlert,
+            msg: "Sorry the location have not been found !!!",
+            class: "text-[#ef4444]",
+          });
+        });
+
+      setText("");
     }
   };
   useEffect(() => {
@@ -38,6 +63,11 @@ function ChangeModal() {
         <div className="modal-box">
           {/* INPUT BOX */}
           <div className="form-control">
+            <h1 className={`text-center`}>
+              <span className={showAlert.class ? showAlert.class : null}>
+                {showAlert.msg}
+              </span>
+            </h1>
             <label className="label">
               <span className="label-text">Search Location</span>
             </label>

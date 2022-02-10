@@ -27,7 +27,10 @@ function MainWeather() {
     >
       {/* TOP WEATHER INFORMATION */}
       <div className="">
-        <h1 className="text-3xl">{weather.name}</h1>
+        <h1 className="text-3xl">
+          {weather.name},{" "}
+          {weather.sys ? <span>{weather.sys.country}</span> : null}
+        </h1>
         <h3>{`${date.getDate()} ${date.toLocaleString("en-US", {
           month: "long",
         })} ${date.getFullYear()}`}</h3>
